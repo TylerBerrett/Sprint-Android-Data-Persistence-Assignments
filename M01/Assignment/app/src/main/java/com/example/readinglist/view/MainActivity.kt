@@ -9,8 +9,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.readinglist.R
@@ -26,24 +24,36 @@ class MainActivity : AppCompatActivity() {
         val FROM_EDIT_BOOK = "edit key"
         val CREATE_ENTRY_KEY = 0
         val EDIT_ENTRY_KEY = 1
-        val PREFRENCE_KEY = "save key"
+        val PREFRENCE_KEY = "save String key"
     }
 
     var preferences: SharedPreferences? = null
+    var saveList = ""
 
-
-    val book = Book("title", "reason", false, "0")
-    val book1 = Book("title1", "reason", true, "1")
-    val book2 = Book("title2", "reason", false, "2")
-
-    val listOfBooks = arrayListOf(book, book1, book2)
+    val listOfBooks = arrayListOf<Book>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
-        preferences = getSharedPreferences(PREFRENCE_KEY, Context.MODE_PRIVATE)
+        preferences = getSharedPreferences("Preference", Context.MODE_PRIVATE)
+
+        listOfBooks.forEach {
+            saveList += it.toCsvString(it)
+        }
+
+
+        saveList = preferences?.getString(PREFRENCE_KEY, "default") ?: "null"
+        println(saveList)
+
+        preferences?.let {
+            val editor = it.edit()
+            println(saveList)
+            editor.putString(PREFRENCE_KEY, saveList)
+            editor.commit()
+        }
+
 
 
         recycler_view.layoutManager = LinearLayoutManager(this)
@@ -57,9 +67,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (resultCode == Activity.RESULT_OK) {
             val csvBook = data?.getStringExtra(FROM_EDIT_BOOK)
 
@@ -70,11 +83,7 @@ class MainActivity : AppCompatActivity() {
                     1 -> listOfBooks[returnedBook.id.toInt()].title = returnedBook.title
                 }
             }
-
-
-
             recycler_view.adapter?.notifyDataSetChanged()
-
         }
     }
 
@@ -105,6 +114,13 @@ class MainActivity : AppCompatActivity() {
             val cardView = view.card_view_title
         }
 
+    }
+
+    fun getBookCsvStringById(id: String): String{
+        return if (listOfBooks.isNotEmpty()){
+            val book = listOfBooks[id.toInt()]
+            book.toCsvString(book)
+        } else ""
     }
 
 
