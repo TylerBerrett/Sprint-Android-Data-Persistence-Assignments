@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.lambdaschool.sharedprefs.R
 import com.lambdaschool.sharedprefs.entity.Journal.Companion.createJournalEntry
 import com.lambdaschool.sharedprefs.model.JournalEntry
-import com.lambdaschool.sharedprefs.prefs
+import com.lambdaschool.sharedprefs.repo
 import kotlinx.android.synthetic.main.activity_journal_list.*
 import kotlinx.android.synthetic.main.content_journal_list.*
 import timber.log.Timber.i
@@ -41,9 +41,9 @@ class JournalListActivity : AppCompatActivity() {
         i("onCreate")
 
         // Stretch goal: add test entries on first launch:
-//        Journal.createTestEntries(prefs)
+//        Journal.createTestEntries(repo)
 
-        entryList = prefs.readAllEntries()
+        entryList = repo.readAllEntries()
     }
 
     override fun onStart() {
@@ -110,13 +110,13 @@ class JournalListActivity : AppCompatActivity() {
                 if (data != null) {
                     val entry = data.getSerializableExtra(JournalEntry.TAG) as JournalEntry
                     entryList.add(entry)
-                    prefs.createEntry(entry) // TODO 13. We create the new Journal Entry via Shared Preferences
+                    repo.createEntry(entry) // TODO 13. We create the new Journal Entry via Shared Preferences
                 }
             } else if (requestCode == EDIT_ENTRY_REQUEST) {
                 if (data != null) {
                     val entry = data.getSerializableExtra(JournalEntry.TAG) as JournalEntry
                     entryList[entry.id] = entry
-                    prefs.updateEntry(entry) // TODO 14. We update the existing Journal Entry via Shared Preferences
+                    repo.updateEntry(entry) // TODO 14. We update the existing Journal Entry via Shared Preferences
                 }
             }
         }

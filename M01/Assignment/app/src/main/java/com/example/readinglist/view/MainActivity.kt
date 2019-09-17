@@ -12,9 +12,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.readinglist.R
+import com.example.readinglist.SharedPrefsDao
+import com.example.readinglist.SharedPrefsDao.PREFRENCE_ID_LIST
+import com.example.readinglist.SharedPrefsDao.PREFRENCE_KEY
 import com.example.readinglist.model.Book
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.recycler_view_item.view.*
+import java.lang.StringBuilder
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,11 +28,13 @@ class MainActivity : AppCompatActivity() {
         val FROM_EDIT_BOOK = "edit key"
         val CREATE_ENTRY_KEY = 0
         val EDIT_ENTRY_KEY = 1
-        val PREFRENCE_KEY = "save String key"
+
+        var preferences: SharedPreferences? = null
+
     }
 
-    var preferences: SharedPreferences? = null
-    var saveList = ""
+
+    var saveListIds = ""
 
     val listOfBooks = arrayListOf<Book>()
 
@@ -36,23 +42,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        preferences = getSharedPreferences(PREFRENCE_KEY, Context.MODE_PRIVATE)
 
-        preferences = getSharedPreferences("Preference", Context.MODE_PRIVATE)
-
-        listOfBooks.forEach {
-            saveList += it.toCsvString(it)
-        }
-
-
-        saveList = preferences?.getString(PREFRENCE_KEY, "default") ?: "null"
-        println(saveList)
-
-        preferences?.let {
-            val editor = it.edit()
-            println(saveList)
-            editor.putString(PREFRENCE_KEY, saveList)
-            editor.commit()
-        }
+        println(SharedPrefsDao.getAllBookIds())
 
 
 
@@ -79,11 +71,14 @@ class MainActivity : AppCompatActivity() {
             if (csvBook != null) {
                 val returnedBook = Book(csvBook)
                 when (requestCode) {
-                    0 -> listOfBooks.add(returnedBook)
-                    1 -> listOfBooks[returnedBook.id.toInt()].title = returnedBook.title
+                    CREATE_ENTRY_KEY -> listOfBooks.add(returnedBook)
+                    EDIT_ENTRY_KEY -> listOfBooks[returnedBook.id.toInt()].title = returnedBook.title
                 }
             }
+
             recycler_view.adapter?.notifyDataSetChanged()
+
+
         }
     }
 
@@ -100,7 +95,7 @@ class MainActivity : AppCompatActivity() {
         override fun getItemCount(): Int = list.size
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.bookTitle.text = list[position].title
+            holder.bookTitle.text = list[position].title + list[position].id
 
             holder.cardView.setOnClickListener {
                 val editIntent = Intent(this@MainActivity, EditBookActivity::class.java)
@@ -116,12 +111,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun getBookCsvStringById(id: String): String{
-        return if (listOfBooks.isNotEmpty()){
-            val book = listOfBooks[id.toInt()]
-            book.toCsvString(book)
-        } else ""
-    }
+
 
 
 }

@@ -6,7 +6,7 @@ import android.graphics.Color
 import com.lambdaschool.sharedprefs.model.JournalEntry
 
 // TODO: 15. A Shared Preferences helper class
-class Prefs(context: Context) {
+class Prefs(context: Context): JournalRepoInterface {
     companion object {
         private const val JOURNAL_PREFERENCES = "JournalPreferences"
 
@@ -23,7 +23,7 @@ class Prefs(context: Context) {
 
     // TODO: 17. Each Journal Entry will be its own entry in shared preferences
     // create a new entry
-    fun createEntry(entry: JournalEntry) {
+    override fun createEntry(entry: JournalEntry) {
         // read list of entry ids
         val ids = getListOfIds()
 
@@ -79,7 +79,7 @@ class Prefs(context: Context) {
 
     // TODO: 19. This collects all known entries in Shared Preferences, with the help of the ID List
     // read all entries
-    fun readAllEntries(): MutableList<JournalEntry> {
+    override fun readAllEntries(): MutableList<JournalEntry> {
         // read list of entry ids
         val listOfIds = getListOfIds()
 
@@ -95,7 +95,7 @@ class Prefs(context: Context) {
 
 
     // TODO: 20. This is another way to define a SharedPreferences item
-    // In Activity, can simply use: prefs.bgColor (to get and set)
+    // In Activity, can simply use: repo.bgColor (to get and set)
     var bgColor: Int
         get() = sharedPrefs.getInt(BACKGROUND_COLOR, Color.BLACK)
         set(value) = sharedPrefs.edit().putInt(BACKGROUND_COLOR, value).apply()
@@ -103,9 +103,15 @@ class Prefs(context: Context) {
 
     // TODO: 21. Update an entry - use CSV technique to "serialize" a Journal Entry
     // edit an existing entry
-    fun updateEntry(entry: JournalEntry) {
+    override fun updateEntry(entry: JournalEntry) {
         val editor = sharedPrefs.edit()
         editor.putString(ENTRY_ITEM_KEY_PREFIX + entry.id, entry.toCsvString())
+        editor.apply()
+    }
+
+    override fun deleteEntry(entry: JournalEntry) {
+        val editor = sharedPrefs.edit()
+        editor.remove(ENTRY_ITEM_KEY_PREFIX + entry.id)
         editor.apply()
     }
 }

@@ -30,9 +30,6 @@ class Book{
 
     }
 
-    fun getTheTitle(): String{
-        return title
-    }
 
     fun toCsvString(book: Book): String = "${book.title},${book.reasonToRead},${book.hasBeenRead},${book.id}"
 

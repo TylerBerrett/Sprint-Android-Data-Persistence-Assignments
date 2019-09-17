@@ -9,7 +9,7 @@ import org.junit.runner.RunWith
 import org.junit.Assert.*
 
 /**
- * Instrumented saveList, which will execute on an Android device.
+ * Instrumented saveListIds, which will execute on an Android device.
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
@@ -17,7 +17,7 @@ import org.junit.Assert.*
 class ExampleInstrumentedTest {
     @Test
     fun useAppContext() {
-        // Context of the app under saveList.
+        // Context of the app under saveListIds.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.example.readinglist", appContext.packageName)
     }
