@@ -1,6 +1,9 @@
 package com.example.readinglist.model
 
+import java.io.Serializable
+
 class Book{
+
     var title: String = ""
     var reasonToRead: String = ""
     var hasBeenRead: Boolean = false

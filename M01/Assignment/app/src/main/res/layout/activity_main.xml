@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -14,7 +14,7 @@
         android:layout_weight="1"/>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_add_book"
         android:text="Add Book"
         android:textSize="32sp"
         android:textColor="@android:color/white"
