@@ -18,7 +18,6 @@ import com.example.readinglist.SharedPrefsDao.PREFRENCE_KEY
 import com.example.readinglist.model.Book
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.recycler_view_item.view.*
-import java.lang.StringBuilder
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,12 +30,11 @@ class MainActivity : AppCompatActivity() {
 
         var preferences: SharedPreferences? = null
 
+        var listOfBooks = arrayListOf<Book>()
+
     }
 
 
-    var saveListIds = ""
-
-    val listOfBooks = arrayListOf<Book>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +42,9 @@ class MainActivity : AppCompatActivity() {
 
         preferences = getSharedPreferences(PREFRENCE_KEY, Context.MODE_PRIVATE)
 
-        println(SharedPrefsDao.getAllBookIds())
+        listOfBooks = SharedPrefsDao.getAllBooks()
 
-
+       val test = preferences?.getString(PREFRENCE_ID_LIST, "")
 
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = BookRecyclerView(listOfBooks)
@@ -74,6 +72,9 @@ class MainActivity : AppCompatActivity() {
                     CREATE_ENTRY_KEY -> listOfBooks.add(returnedBook)
                     EDIT_ENTRY_KEY -> listOfBooks[returnedBook.id.toInt()].title = returnedBook.title
                 }
+
+                SharedPrefsDao.updateBook(Book(csvBook))
+
             }
 
             recycler_view.adapter?.notifyDataSetChanged()
@@ -99,7 +100,7 @@ class MainActivity : AppCompatActivity() {
 
             holder.cardView.setOnClickListener {
                 val editIntent = Intent(this@MainActivity, EditBookActivity::class.java)
-                editIntent.putExtra(SEND_BOOK_KEY, list[position].toCsvString(list[position]))
+                editIntent.putExtra(SEND_BOOK_KEY, list[position].toCsvString())
                 this@MainActivity.startActivityForResult(editIntent, EDIT_ENTRY_KEY)
             }
         }

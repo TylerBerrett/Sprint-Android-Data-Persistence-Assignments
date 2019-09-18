@@ -31,6 +31,6 @@ class Book{
     }
 
 
-    fun toCsvString(book: Book): String = "${book.title},${book.reasonToRead},${book.hasBeenRead},${book.id}"
+    fun toCsvString(): String = "${this.title},${this.reasonToRead},${this.hasBeenRead},${this.id}"
 
 }

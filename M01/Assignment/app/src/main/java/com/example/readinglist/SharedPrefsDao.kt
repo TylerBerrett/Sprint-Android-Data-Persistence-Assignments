@@ -10,14 +10,14 @@ object SharedPrefsDao {
     val PREFRENCE_KEY = "prefrence"
 
     val PREFRENCE_ID_LIST = "list of id"
-    val PREFRENCE_CREATE = "create"
+    val PREFRENCE_CREATE = "Book#"
     val PREFRENCE_NEXT_ID = "id next"
 
 
 
     fun getAllBookIds(): ArrayList<String>{
         val savedIds= MainActivity.preferences?.getString(PREFRENCE_ID_LIST, "")
-        val oldIds = savedIds!!.split(",")
+        val oldIds = savedIds!!.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
         val ids = ArrayList<String>(oldIds.size)
 
@@ -27,33 +27,49 @@ object SharedPrefsDao {
         return ids
     }
 
+    fun getAllBooks(): ArrayList<Book>{
+        val books = ArrayList<Book>()
+        getAllBookIds().forEach {
+            books.add(Book(getBookCsvStringById(it)!!))
+        }
+        return books
+    }
+
 
     fun getNextId(): String{
         return MainActivity.preferences?.getString(PREFRENCE_NEXT_ID, "default") ?: "null"
     }
 
-    fun getBookCsvStringById(id: String){
-        //MainActivity().preferences?.getString
-        /*return if (listOfBooks.isNotEmpty()){
-            val book = listOfBooks[id.toInt()]
-            book.toCsvString(book)
-        } else ""*/
+    fun getBookCsvStringById(id: String): String? {
+        val cvs = MainActivity.preferences?.getString(PREFRENCE_CREATE + id, "")
+        return cvs
     }
 
+
     fun updateBook (book: Book){
-        val ids = getAllBookIds()
+        val newIds = getAllBookIds()
+        val editor = MainActivity.preferences?.edit()
+        if (!newIds.contains(book.id)){
+            newIds.add(book.id)
 
-        if (ids?.contains(book.id)){
-            val editor = MainActivity.preferences?.edit()
-
-            var nextId = MainActivity.preferences?.getString(PREFRENCE_NEXT_ID, "")
-            book.id = nextId!!
-            var newNextId = nextId!!.toInt()
-            editor?.putInt(PREFRENCE_NEXT_ID, ++newNextId)
-
-
-
-
+            val stringBuilder = StringBuilder()
+            newIds.forEach {
+                stringBuilder.append(it).append(",")
+            }
+            editor?.putString(PREFRENCE_ID_LIST, stringBuilder.toString())
+            editor?.putString(PREFRENCE_CREATE + book.id, book.toCsvString())
+            editor?.commit()
+        } else {
+            editor?.putString(PREFRENCE_CREATE + book.id, book.toCsvString())
+            editor?.commit()
         }
+
+
+
+
+
+
+
+
     }
 }

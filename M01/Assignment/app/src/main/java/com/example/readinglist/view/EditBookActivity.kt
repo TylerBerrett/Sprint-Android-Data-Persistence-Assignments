@@ -59,7 +59,7 @@ class EditBookActivity : AppCompatActivity() {
         if (check_is_read.isChecked) isRead = true
         val id = id
         val bookReturn = Book(title, reason, isRead, id)
-        val bookReturnCsv = bookReturn.toCsvString(bookReturn)
+        val bookReturnCsv = bookReturn.toCsvString()
         val backIntent = Intent()
         backIntent.putExtra(MainActivity.FROM_EDIT_BOOK, bookReturnCsv)
         setResult(Activity.RESULT_OK, backIntent)
