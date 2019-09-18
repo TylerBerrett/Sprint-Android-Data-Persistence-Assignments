@@ -1,0 +1,33 @@
+CREATE TABLE players (
+  id INT PRIMARY KEY,
+  first_name TEXT,
+  last_name TEXT,
+  age INT
+);
+INSERT INTO players (id, first_name, last_name, age)
+VALUES (0, "Twail", "Allman", 12);
+INSERT INTO players (id, first_name, last_name, age)
+VALUES (1, "Post", "Malone", 22);
+INSERT INTO players (id, first_name, last_name, age)
+VALUES (2, "Ethan", "Klein", 42);
+INSERT INTO players (id, first_name, last_name, age)
+VALUES (3, "Scooby", "Doo", 72);
+INSERT INTO players (id, first_name, last_name, age)
+VALUES (4, "George 'Joji' ", "Miller", 15);
+
+CREATE TABLE teams(
+  id INT PRIMARY KEY,
+  team_name TEXT,
+  ranking INT,
+  location TEXT
+);
+INSERT INTO teams (id, team_name, ranking, location)
+VALUES(0, "The Gotham Rogues", 1, "Gotham City, New Jersey");
+INSERT INTO teams (id, team_name, ranking, location)
+VALUES(1, "Orem Owls", 9, "Orem, Utah");
+INSERT INTO teams (id, team_name, ranking, location)
+VALUES(2, "New York Red Bulls", 5, "Harrison, New Jersey");
+INSERT INTO teams (id, team_name, ranking, location)
+VALUES(3, "Jersey Devils", 8, "Newark, New Jersey");
+INSERT INTO teams (id, team_name, ranking, location)
+VALUES(4, "Utah Jazz", 2, "Salt Lake City, Utah");
