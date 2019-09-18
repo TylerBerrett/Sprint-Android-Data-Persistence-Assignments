@@ -2,18 +2,21 @@ CREATE TABLE players (
   id INT PRIMARY KEY,
   first_name TEXT,
   last_name TEXT,
-  age INT
+  age INT,
+  team INT,
+  FOREIGN KEY (team) REFERENCES teams(id)
 );
-INSERT INTO players (id, first_name, last_name, age)
-VALUES (0, "Twail", "Allman", 12);
-INSERT INTO players (id, first_name, last_name, age)
-VALUES (1, "Post", "Malone", 22);
-INSERT INTO players (id, first_name, last_name, age)
-VALUES (2, "Ethan", "Klein", 42);
-INSERT INTO players (id, first_name, last_name, age)
-VALUES (3, "Scooby", "Doo", 72);
-INSERT INTO players (id, first_name, last_name, age)
-VALUES (4, "George 'Joji' ", "Miller", 15);
+
+INSERT INTO players (id, first_name, last_name, age, team)
+VALUES (0, "Twail", "Allman", 12, 0);
+INSERT INTO players (id, first_name, last_name, age, team)
+VALUES (1, "Post", "Malone", 22, 4);
+INSERT INTO players (id, first_name, last_name, age, team)
+VALUES (2, "Ethan", "Klein", 42, 1);
+INSERT INTO players (id, first_name, last_name, age, team)
+VALUES (3, "Scooby", "Doo", 72, 3);
+INSERT INTO players (id, first_name, last_name, age, team)
+VALUES (4, "George 'Joji' ", "Miller", 15, 2);
 
 CREATE TABLE teams(
   id INT PRIMARY KEY,
@@ -21,6 +24,7 @@ CREATE TABLE teams(
   ranking INT,
   location TEXT
 );
+
 INSERT INTO teams (id, team_name, ranking, location)
 VALUES(0, "The Gotham Rogues", 1, "Gotham City, New Jersey");
 INSERT INTO teams (id, team_name, ranking, location)
