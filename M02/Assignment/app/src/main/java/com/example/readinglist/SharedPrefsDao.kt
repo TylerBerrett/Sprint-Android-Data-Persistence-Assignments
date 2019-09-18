@@ -5,7 +5,9 @@ import com.example.readinglist.model.Book
 import com.example.readinglist.view.MainActivity
 import java.lang.StringBuilder
 
-object SharedPrefsDao {
+
+
+object SharedPrefsDao: PersistanceInterface {
 
     val PREFRENCE_KEY = "prefrence"
 
@@ -15,7 +17,7 @@ object SharedPrefsDao {
 
 
 
-    fun getAllBookIds(): ArrayList<String>{
+    override fun getAllBookIds(): ArrayList<String>{
         val savedIds= MainActivity.preferences?.getString(PREFRENCE_ID_LIST, "")
         val oldIds = savedIds!!.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
@@ -27,7 +29,7 @@ object SharedPrefsDao {
         return ids
     }
 
-    fun getAllBooks(): ArrayList<Book>{
+    override fun getAllBooks(): ArrayList<Book>{
         val books = ArrayList<Book>()
         getAllBookIds().forEach {
             books.add(Book(getBookCsvStringById(it)!!))
@@ -40,13 +42,13 @@ object SharedPrefsDao {
         return MainActivity.preferences?.getString(PREFRENCE_NEXT_ID, "default") ?: "null"
     }
 
-    fun getBookCsvStringById(id: String): String? {
+    override fun getBookCsvStringById(id: String): String? {
         val cvs = MainActivity.preferences?.getString(PREFRENCE_CREATE + id, "")
         return cvs
     }
 
 
-    fun updateBook (book: Book){
+    override fun updateBook (book: Book){
         val newIds = getAllBookIds()
         val editor = MainActivity.preferences?.edit()
         if (!newIds.contains(book.id)){

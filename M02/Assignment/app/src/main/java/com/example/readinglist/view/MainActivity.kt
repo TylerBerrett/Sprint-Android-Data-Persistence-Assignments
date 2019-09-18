@@ -11,8 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.readinglist.R
-import com.example.readinglist.SharedPrefsDao
+import com.example.readinglist.*
 import com.example.readinglist.SharedPrefsDao.PREFRENCE_ID_LIST
 import com.example.readinglist.SharedPrefsDao.PREFRENCE_KEY
 import com.example.readinglist.model.Book
@@ -20,6 +19,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.recycler_view_item.view.*
 
 class MainActivity : AppCompatActivity() {
+
+    init {
+        BookFileStorage.context = this
+    }
 
     companion object {
         val SEND_ID_KEY = "id key"
@@ -42,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         preferences = getSharedPreferences(PREFRENCE_KEY, Context.MODE_PRIVATE)
 
-        listOfBooks = SharedPrefsDao.getAllBooks()
+        listOfBooks = BookFileStorage.getAllBooks()
 
        val test = preferences?.getString(PREFRENCE_ID_LIST, "")
 
@@ -55,10 +58,10 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(idIntent, CREATE_ENTRY_KEY)
         }
 
+
+
+
     }
-
-
-
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -73,7 +76,9 @@ class MainActivity : AppCompatActivity() {
                     EDIT_ENTRY_KEY -> listOfBooks[returnedBook.id.toInt()].title = returnedBook.title
                 }
 
-                SharedPrefsDao.updateBook(Book(csvBook))
+
+                //SharedPrefsDao.updateBook(Book(csvBook))
+                BookFileStorage.updateBook(Book(csvBook))
 
             }
 
