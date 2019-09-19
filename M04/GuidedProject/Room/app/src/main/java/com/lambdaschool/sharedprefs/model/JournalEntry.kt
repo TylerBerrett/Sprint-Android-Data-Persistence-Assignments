@@ -1,6 +1,9 @@
 package com.lambdaschool.sharedprefs.model
 
 import android.net.Uri
+import androidx.annotation.NonNull
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.Serializable
@@ -8,17 +11,22 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+// TODO 6: Annotate the Entity
+
 class JournalEntry : Serializable {
 
     companion object {
         const val TAG = "JournalEntry"
+        // TODO 8: This must be 0 if we want autoGenerate to work
         const val INVALID_ID = -1
     }
 
     var date: String? = null
     var entryText: String? = null
-    private var image: String? = null
+    var image: String? = null
     var dayRating: Int = 0
+
+    // TODO 7: Let's make id the primary key
     var id: Int = 0
 
     constructor(id: Int) {
@@ -29,71 +37,52 @@ class JournalEntry : Serializable {
         initializeDate()
     }
 
-<<<<<<< HEAD
     constructor(jsonObject: JSONObject) {
         try {
             this.date = jsonObject.getString("date")
         } catch (e: JSONException) {
             this.date = (Date().time / 1000).toString()
         }
-
         try {
             this.entryText = jsonObject.getString("entry_text")
         } catch (e: JSONException) {
             this.entryText = ""
         }
-
         try {
             this.image = jsonObject.getString("image")
         } catch (e: JSONException) {
             this.image = ""
         }
-
         try {
             this.dayRating = jsonObject.getInt("day_rating")
         } catch (e: JSONException) {
             this.dayRating = 0
         }
-
         try {
             this.id = jsonObject.getInt("id")
         } catch (e: JSONException) {
-            this.id = 0
+            this.id = -1
         }
-
-
     }
 
     fun toJsonObject(): JSONObject? {
-=======
-    // TODO 11: Write constructor from JSONObject
-
-    // TODO 7: Implement toJSONObject method
-    fun toJsonObject(): JSONObject {
->>>>>>> 99aa2683da55bd186f4a7ef1f2648d71cd172c26
         try {
             return JSONObject().apply {
                 put("date", date)
                 put("entry_text", entryText)
                 put("image", image)
                 put("day_rating", dayRating)
-<<<<<<< HEAD
                 put("id", id)
-        }} catch (e: JSONException) {
+            }
+        } catch (e1: JSONException) {
             return try {
-                JSONObject("{\"date\" : \"$date\", \"entry_text\" : \"$entryText\", \"image\" : \"$image\", \"day_rating\" : $dayRating, \"id\" : $id")
+                JSONObject("{\"date\" : \"$date\", \"entry_text\" : \"$entryText\", \"image\": \"$image\", \"day_rating\": $dayRating, \"id\": $id}")
             } catch (e2: JSONException) {
                 e2.printStackTrace()
                 return null
             }
         }
-=======
-            }
-        } catch (e: JSONException) {
-            return
-        }
 
->>>>>>> 99aa2683da55bd186f4a7ef1f2648d71cd172c26
     }
 
     constructor(csvString: String) {

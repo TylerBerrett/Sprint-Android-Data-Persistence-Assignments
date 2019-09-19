@@ -3,13 +3,10 @@ package com.lambdaschool.sharedprefs
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.lambdaschool.sharedprefs.model.JournalEntry
 
-<<<<<<< HEAD
-// TODO: 15. A Shared Preferences helper class
-=======
-// TODO 2: Declare implementation of interface here and add overrides
->>>>>>> 99aa2683da55bd186f4a7ef1f2648d71cd172c26
 class Prefs(context: Context): JournalRepoInterface {
     companion object {
         private const val JOURNAL_PREFERENCES = "JournalPreferences"
@@ -79,7 +76,7 @@ class Prefs(context: Context): JournalRepoInterface {
     }
 
     // read all entries
-    override fun readAllEntries(): MutableList<JournalEntry> {
+    override fun readAllEntries(): LiveData<List<JournalEntry>> {
         // read list of entry ids
         val listOfIds = getListOfIds()
 
@@ -92,14 +89,13 @@ class Prefs(context: Context): JournalRepoInterface {
                 }
             }
         }
-        return entryList
+
+        val liveData = MutableLiveData<List<JournalEntry>>()
+        liveData.postValue(entryList)
+        return liveData
     }
 
 
-<<<<<<< HEAD
-    // TODO: 20. This is another way to define a SharedPreferences item
-=======
->>>>>>> 99aa2683da55bd186f4a7ef1f2648d71cd172c26
     // In Activity, can simply use: repo.bgColor (to get and set)
     var bgColor: Int
         get() = sharedPrefs.getInt(BACKGROUND_COLOR, Color.BLACK)

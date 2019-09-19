@@ -19,12 +19,15 @@ class JournalListActivity : AppCompatActivity() {
         const val EDIT_ENTRY_REQUEST = 1
     }
 
-    private var entryList = mutableListOf<JournalEntry>()
+    // TODO 27a: We don't need entryList anymore, but we do need a viewModel
+    var entryList: MutableList<JournalEntry> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_journal_list)
         setSupportActionBar(toolbar)
+
+        // TODO 27: Get a ViewModel
 
         fab.setOnClickListener { view ->
             val intent = Intent(this@JournalListActivity, DetailsActivity::class.java)
@@ -38,10 +41,16 @@ class JournalListActivity : AppCompatActivity() {
 
         i("onCreate")
 
-        // Stretch goal: add test entries on first launch:
-//        Journal.createTestEntries(repo)
-
+        // TODO 17: Replace the call here by an AsyncTask
         entryList = repo.readAllEntries()
+
+        // TODO 22: Extract update functionality
+        listLayout.removeAllViews()
+        entryList.forEach { entry ->
+            listLayout.addView(createEntryView(entry))
+        }
+
+        // TODO 28: Replace the call above by observing LiveData from the ViewModel
     }
 
     override fun onStart() {
@@ -54,11 +63,14 @@ class JournalListActivity : AppCompatActivity() {
 
         i("onResume")
 
+        // TODO 29: Do we need this code anymore?
         listLayout.removeAllViews()
         entryList.forEach { entry ->
             listLayout.addView(createEntryView(entry))
         }
     }
+
+    // TODO 22: Extract update functionality
 
     override fun onPause() {
         super.onPause()
@@ -104,24 +116,19 @@ class JournalListActivity : AppCompatActivity() {
             if (requestCode == NEW_ENTRY_REQUEST) {
                 if (data != null) {
                     val entry = data.getSerializableExtra(JournalEntry.TAG) as JournalEntry
-                    entryList.add(entry)
-<<<<<<< HEAD
-                    repo.createEntry(entry) // TODO 13. We create the new Journal Entry via Shared Preferences
-=======
-                    repo.createEntry(entry) // TODO 14: Notice the call here
->>>>>>> 99aa2683da55bd186f4a7ef1f2648d71cd172c26
+                    repo.createEntry(entry) // TODO 16a: Notice the call here, replace with AsyncTask
                 }
             } else if (requestCode == EDIT_ENTRY_REQUEST) {
                 if (data != null) {
                     val entry = data.getSerializableExtra(JournalEntry.TAG) as JournalEntry
                     entryList[entry.id] = entry
-<<<<<<< HEAD
-                    repo.updateEntry(entry) // TODO 14. We update the existing Journal Entry via Shared Preferences
-=======
-                    repo.updateEntry(entry) // TODO 15. Notice the call here
->>>>>>> 99aa2683da55bd186f4a7ef1f2648d71cd172c26
+                    repo.updateEntry(entry) // TODO 16b. Notice the call here, replace with AsyncTask
                 }
             }
         }
     }
+
+    // TODO 19: Create AsyncTask
+    // TODO 20: Update AsyncTask
+    // TODO 21: ReadAll AsyncTask
 }

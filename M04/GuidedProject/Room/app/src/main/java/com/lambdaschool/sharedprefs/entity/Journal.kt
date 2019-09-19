@@ -6,12 +6,13 @@ import com.lambdaschool.sharedprefs.model.JournalEntry
 /**
  * Entity class to hold Journal data and logic (business rules)
  */
+
 class Journal {
 
     companion object {
 
         fun createJournalEntry(): JournalEntry {
-            return JournalEntry(JournalEntry.INVALID_ID)
+            return JournalEntry(0)
         }
 
         fun createJournalEntry(text: String): JournalEntry {
