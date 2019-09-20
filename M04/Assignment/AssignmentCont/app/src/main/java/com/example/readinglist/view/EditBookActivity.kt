@@ -22,7 +22,7 @@ class EditBookActivity : AppCompatActivity() {
 
         if (book != null){
             val csvToBook = Book(book)
-            id = csvToBook.id
+            id = csvToBook.id.toString()
             edit_title.setText(csvToBook.title)
             edit_reason.setText(csvToBook.reasonToRead)
             if (csvToBook.hasBeenRead) check_is_read.toggle()
@@ -57,7 +57,7 @@ class EditBookActivity : AppCompatActivity() {
         val reason = edit_reason.text.toString()
         var isRead = false
         if (check_is_read.isChecked) isRead = true
-        val id = id
+        val id  =  id.toInt()
         val bookReturn = Book(title, reason, isRead, id)
         val bookReturnCsv = bookReturn.toCsvString()
         val backIntent = Intent()

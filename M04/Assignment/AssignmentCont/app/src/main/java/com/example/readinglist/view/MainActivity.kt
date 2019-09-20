@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,10 +12,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.learningroom.App
 import com.example.readinglist.*
 import com.example.readinglist.SharedPrefsDao.PREFRENCE_ID_LIST
 import com.example.readinglist.SharedPrefsDao.PREFRENCE_KEY
 import com.example.readinglist.model.Book
+import com.example.readinglist.model.DataBaseBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.recycler_view_item.view.*
 
@@ -45,9 +48,9 @@ class MainActivity : AppCompatActivity() {
 
         preferences = getSharedPreferences(PREFRENCE_KEY, Context.MODE_PRIVATE)
 
-        listOfBooks = BookFileStorage.getAllBooks()
+        listOfBooks = GetListAsyncTask().get()
 
-       val test = preferences?.getString(PREFRENCE_ID_LIST, "")
+       //val test = preferences?.getString(PREFRENCE_ID_LIST, "")
 
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = BookRecyclerView(listOfBooks)
@@ -73,12 +76,14 @@ class MainActivity : AppCompatActivity() {
                 val returnedBook = Book(csvBook)
                 when (requestCode) {
                     CREATE_ENTRY_KEY -> listOfBooks.add(returnedBook)
-                    EDIT_ENTRY_KEY -> listOfBooks[returnedBook.id.toInt()].title = returnedBook.title
+                    EDIT_ENTRY_KEY -> listOfBooks[returnedBook.id].title = returnedBook.title
                 }
 
 
                 //SharedPrefsDao.updateBook(Book(csvBook))
-                BookFileStorage.updateBook(Book(csvBook))
+                //BookFileStorage.updateBook(Book(csvBook))
+                CreateAsyncTask().execute(Book(csvBook))
+
 
             }
 
@@ -117,7 +122,23 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    class CreateAsyncTask: AsyncTask<Book, Void, Unit>(){
+        override fun doInBackground(vararg book: Book?) {
+            if (book.isNotEmpty()){
+                book[0]?.let {
+                    App.repo?.updateBook(it)
+                }
+            }
 
+        }
+
+    }
+
+    class GetListAsyncTask: AsyncTask<Void, Void, ArrayList<Book>>(){
+        override fun doInBackground(vararg p0: Void?): ArrayList<Book> {
+            return App.repo?.getAllBooks()!!
+        }
+    }
 
 
 }

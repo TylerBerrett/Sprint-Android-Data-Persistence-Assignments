@@ -1,23 +1,34 @@
 package com.example.readinglist.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.Serializable
 import java.util.*
 
+@Entity
 class Book{
 
     var title: String = ""
     var reasonToRead: String = ""
     var hasBeenRead: Boolean = false
-    var id: String = ""
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
 
-    constructor(title: String, reasonToRead: String, hasBeenRead: Boolean, id: String){
+    constructor(title: String, reasonToRead: String, hasBeenRead: Boolean, id: Int){
         this.title = title
         this.reasonToRead = reasonToRead
         this.hasBeenRead = hasBeenRead
         this.id = id
     }
+
+    /*constructor(title: String, reasonToRead: String, hasBeenRead: Boolean, id: String){
+        this.title = title
+        this.reasonToRead = reasonToRead
+        this.hasBeenRead = hasBeenRead
+        this.id = id.toInt()
+    }*/
 
     constructor(itemToCsv: String){
         val params = itemToCsv.split(",")
@@ -27,7 +38,7 @@ class Book{
                 0 -> this.title = param
                 1 -> this.reasonToRead = param
                 2 -> this.hasBeenRead = param.toBoolean()
-                3 -> this.id = param
+                3 -> this.id = param.toInt()
             }
         }
 
@@ -56,9 +67,9 @@ class Book{
 
 
         try {
-            this.id = jsonObject.getString("id")
+            this.id = jsonObject.getInt("id")
         } catch (e: JSONException) {
-            this.id = ""
+            this.id = 0
         }
 
 

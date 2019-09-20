@@ -51,8 +51,8 @@ object SharedPrefsDao: PersistanceInterface {
     override fun updateBook (book: Book){
         val newIds = getAllBookIds()
         val editor = MainActivity.preferences?.edit()
-        if (!newIds.contains(book.id)){
-            newIds.add(book.id)
+        if (!newIds.contains(book.id.toString())){
+            newIds.add(book.id.toString())
 
             val stringBuilder = StringBuilder()
             newIds.forEach {

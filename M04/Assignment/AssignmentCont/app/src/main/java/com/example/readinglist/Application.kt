@@ -1,29 +1,12 @@
-/*
-package com.example.readinglist
+package com.example.learningroom
 
 import android.app.Application
-
-val repo: PersistanceInterface by lazy {
-    App.repo!!
-}
-
-// TODO: 3. Extend Timber to include class, method, line numbers!
-*/
-/*class MyDebugTree : Timber.DebugTree() {
-    override fun createStackElementTag(element: StackTraceElement): String? {
-        return String.format(
-            "[C:%s] [M:%s] [L:%s]",
-            super.createStackElementTag(element),
-            element.methodName,
-            element.lineNumber
-        )
-    }
-}*//*
-
+import com.example.readinglist.PersistanceInterface
+import com.example.readinglist.model.AppDataBase
+import com.example.readinglist.model.DataBaseBuilder
 
 class App : Application() {
 
-    // TODO: 4. Provide an Application-wide Shared Preferences
     companion object {
         var repo: PersistanceInterface? = null
     }
@@ -31,14 +14,9 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        repo = BookFileStorage(applicationContext)
-
-        // TODO: 2. Configure Timber logging
-        // "Timber" Library
-        */
-/*if (BuildConfig.DEBUG) {
-            Timber.plant(MyDebugTree())
-        }*//*
+        repo = DataBaseBuilder(applicationContext)
 
     }
-}*/
+
+
+}
