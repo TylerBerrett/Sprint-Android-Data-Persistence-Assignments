@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.EditBookActivity">
+
+    <EditText
+        android:id="@+id/edit_title"
+        android:layout_width="match_parent"
+        android:textSize="32sp"
+        android:hint="Title"
+        android:textAlignment="center"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/edit_reason"
+        android:hint="Reason"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"/>
+
+    <CheckBox
+        android:id="@+id/check_is_read"
+        android:text="Read"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/button_submit"
+            android:layout_margin="8dp"
+            android:background="@android:color/holo_green_dark"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/button_cancel"
+            android:text="Submit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_margin="8dp"
+            android:background="@android:color/holo_red_light"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/button_submit"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="Cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+</LinearLayout>

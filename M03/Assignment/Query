@@ -1,0 +1,12 @@
+SELECT * FROM players;
+SELECT first_name FROM players;
+SELECT team_name FROM teams WHERE id=3;
+SELECT team_name, ranking FROM teams WHERE ranking < 3;
+
+SELECT * FROM teams;
+UPDATE teams SET ranking=ranking+1 WHERE ranking > 4;
+SELECT * FROM teams;
+
+SELECT * FROM players;
+DELETE FROM players WHERE age < 18;
+SELECT * FROM players;

@@ -5,7 +5,11 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import com.lambdaschool.sharedprefs.model.JournalEntry
 
+<<<<<<< HEAD
+// TODO: 15. A Shared Preferences helper class
+=======
 // TODO 2: Declare implementation of interface here and add overrides
+>>>>>>> 99aa2683da55bd186f4a7ef1f2648d71cd172c26
 class Prefs(context: Context): JournalRepoInterface {
     companion object {
         private const val JOURNAL_PREFERENCES = "JournalPreferences"
@@ -92,6 +96,10 @@ class Prefs(context: Context): JournalRepoInterface {
     }
 
 
+<<<<<<< HEAD
+    // TODO: 20. This is another way to define a SharedPreferences item
+=======
+>>>>>>> 99aa2683da55bd186f4a7ef1f2648d71cd172c26
     // In Activity, can simply use: repo.bgColor (to get and set)
     var bgColor: Int
         get() = sharedPrefs.getInt(BACKGROUND_COLOR, Color.BLACK)

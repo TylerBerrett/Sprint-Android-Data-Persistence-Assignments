@@ -105,13 +105,21 @@ class JournalListActivity : AppCompatActivity() {
                 if (data != null) {
                     val entry = data.getSerializableExtra(JournalEntry.TAG) as JournalEntry
                     entryList.add(entry)
+<<<<<<< HEAD
+                    repo.createEntry(entry) // TODO 13. We create the new Journal Entry via Shared Preferences
+=======
                     repo.createEntry(entry) // TODO 14: Notice the call here
+>>>>>>> 99aa2683da55bd186f4a7ef1f2648d71cd172c26
                 }
             } else if (requestCode == EDIT_ENTRY_REQUEST) {
                 if (data != null) {
                     val entry = data.getSerializableExtra(JournalEntry.TAG) as JournalEntry
                     entryList[entry.id] = entry
+<<<<<<< HEAD
+                    repo.updateEntry(entry) // TODO 14. We update the existing Journal Entry via Shared Preferences
+=======
                     repo.updateEntry(entry) // TODO 15. Notice the call here
+>>>>>>> 99aa2683da55bd186f4a7ef1f2648d71cd172c26
                 }
             }
         }
