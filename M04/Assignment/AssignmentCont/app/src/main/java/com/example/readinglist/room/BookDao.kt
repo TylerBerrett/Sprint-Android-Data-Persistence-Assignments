@@ -1,9 +1,6 @@
 package com.example.readinglist.room
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.readinglist.model.Book
 
 @Dao
@@ -14,7 +11,7 @@ interface BookDao {
     /*@Query("SELECT id FROM book")
     fun getAllIds(): ArrayList<String>*/
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addBook(book: Book)
 
     @Delete

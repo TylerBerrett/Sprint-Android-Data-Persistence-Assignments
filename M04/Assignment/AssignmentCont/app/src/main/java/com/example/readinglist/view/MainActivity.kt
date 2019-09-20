@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     init {
         BookFileStorage.context = this
+        GetListAsyncTask().execute()
     }
 
     companion object {
@@ -48,7 +49,11 @@ class MainActivity : AppCompatActivity() {
 
         preferences = getSharedPreferences(PREFRENCE_KEY, Context.MODE_PRIVATE)
 
-        listOfBooks = GetListAsyncTask().get()
+
+
+        val test = listOfBooks
+        val i = 0
+
 
        //val test = preferences?.getString(PREFRENCE_ID_LIST, "")
 
@@ -76,13 +81,14 @@ class MainActivity : AppCompatActivity() {
                 val returnedBook = Book(csvBook)
                 when (requestCode) {
                     CREATE_ENTRY_KEY -> listOfBooks.add(returnedBook)
-                    EDIT_ENTRY_KEY -> listOfBooks[returnedBook.id].title = returnedBook.title
+                    EDIT_ENTRY_KEY -> listOfBooks[returnedBook.id - 1].title = returnedBook.title
                 }
 
 
                 //SharedPrefsDao.updateBook(Book(csvBook))
                 //BookFileStorage.updateBook(Book(csvBook))
                 CreateAsyncTask().execute(Book(csvBook))
+
 
 
             }
@@ -137,6 +143,13 @@ class MainActivity : AppCompatActivity() {
     class GetListAsyncTask: AsyncTask<Void, Void, ArrayList<Book>>(){
         override fun doInBackground(vararg p0: Void?): ArrayList<Book> {
             return App.repo?.getAllBooks()!!
+        }
+
+        override fun onPostExecute(result: ArrayList<Book>?) {
+            super.onPostExecute(result)
+            result?.forEach {
+                listOfBooks.add(it)
+            }
         }
     }
 
